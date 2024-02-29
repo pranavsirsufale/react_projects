@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: Helvetica;
+}
+html,body{
+    height: 100%;
+    width:100%;
+}
+#page1{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(120, 191, 214);
+}
+#page2{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(61, 128, 150);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#page3{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(13, 48, 59);
+}
+#page2 img{
+    height: 500px;
+    object-fit: cover;
+    object-position: center;
+}
+
+

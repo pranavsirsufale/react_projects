@@ -1,7 +1,12 @@
-const Item = (props) =>{
-    let{fooditem}= props;
+import styles from "./item.module.css"
+const Item = ( {foodItems , handleByButton } ) =>{
+   
+
+    // let{fooditem}= props;
     return (
-        <li className="list-group-item kg-item" style={{listStyle:'none'}} ><span className="kg-span">{fooditem}</span></li>
+        <li className={`${styles["kg-item"]} list-group-item`} style={{listStyle:'none'}} ><span className="kg-span">{foodItems}</span>
+        <button className={`${styles.button} btn btn-info`} 
+        onClick={handleByButton}> Buy </button></li>
     )
 }
 
