@@ -14,16 +14,12 @@ var popular = [
     {name : "Dress Set" , headline:"Dress Set , has a collection of dresses includes black hoodie , white paijama ", price:"2999",image:"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhc2hpb258ZW58MHx8MHx8fDA%3D" },
 ];
 
-
-
-
-
-
+var cart = [];
 
 
 function addProducts(){
     var clutter = "";
-products.forEach(function(product){
+products.forEach(function(product,index){
     clutter += `<div class="product w-fit rounded-xl p-2 bg-white">
     <div class="image w-[14rem] h-[13rem] bg-zinc-200 rounded-xl overflow-hidden"><img class="w-full h-full object-cover" src="${product.image}" /></div>
     <div class="data w-full px-2 py-5">
@@ -33,8 +29,8 @@ products.forEach(function(product){
                 <h3 class="font-semibold opacity-20">${product.headline.substring(0,20)}...</h3>
                 <h4 class="font-semibold mt-2">&#8377; ${product.price}</h4>
             </div>
-            <button class="w-10 h-10 rounded-full shader text-yellow-400"><i
-                    class="ri-add-line"></i></button>
+            <button data-index="${index}" class="add w-10 h-10 rounded-full shader text-yellow-400"><i
+                   data-index="${index}" class="add ri-add-line"></i></button>
         </div>
     </div>
 </div>`;
@@ -44,8 +40,6 @@ products.forEach(function(product){
 
 document.querySelector(".products").innerHTML = clutter;
 }
-
-
 function addPopularProducts(){
     var clutter = "";
     popular.forEach(function(product){
@@ -65,8 +59,42 @@ function addPopularProducts(){
     })
     document.querySelector(".populars").innerHTML = clutter;
 }
+function addToCart(){
+    document.querySelector(".products")
+    .addEventListener("click",function(obj){
+        // alert(`${obj.target.parentNode.parentNode.querySelector(".font-semibold").innerHTML} has added succesfully into the cart` );
+        if(obj.target.classList.contains('add')){
+           cart.push(products[obj.target.dataset.index])
+           console.log(cart);
+        };
+        })
+
+   
+}
+function showCart(){
+    document.querySelector(".carticon").addEventListener("click",function(){
+        document.querySelector(".cartexpnd").style.display = "block";
+
+        var clutter = "";
+        cart.forEach(function(prod,index){
+            clutter += `<div class="flex gap-2 bg-white p-2 rounded-lg">
+            <div class="w-10 h-10 flex-shrink-0 rounded-lg overflow-hidden">
+            <img class="w-full h-full object-cover" src="${prod.image}" />
+            </div>
+            <div>
+                <h3 class="font-semibold" >${prod.name}</h3>
+                <h5 class="text-sm font-semibold opacity-80">${prod.price}</h5>
+            </div>
+            </div>`;
+        })
+        document.querySelector(".cartexpnd").innerHTML = clutter
+    })
+}
+
+showCart()
 addProducts()
 addPopularProducts()
+addToCart()
 
 // show real popular products
 // on click of product add button add it to the cart
