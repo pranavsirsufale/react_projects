@@ -16,7 +16,6 @@ var play = document.querySelector("#play")
 var backward = document.querySelector("#backward")
 var forward = document.querySelector("#forward")
 var audio = new Audio()
-
 var selectedSong = 0
 
 audio.src = arr[selectedSong].url
@@ -51,7 +50,6 @@ allSongs.addEventListener("click", function (dets) {
 
 
 })
-
 play.addEventListener("click", function () {
     if (flag == 0) {
         play.innerHTML = `<i class="ri-pause-large-line"></i>`;
@@ -66,8 +64,6 @@ play.addEventListener("click", function () {
     }
 
 })
-
-
 forward.addEventListener("click", function () {
     if (selectedSong < arr.length - 1) {
         selectedSong++;
