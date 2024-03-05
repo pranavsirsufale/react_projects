@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-image: linear-gradient(to right,#54d2be,#6d43ea);
+}
+#main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px ;
+    
+}
+.btns{
+    padding: 20px ;
+    display: flex;
+    gap: 30px;
+}
+button{
+    width: 100px;
+    padding: 15px;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.493);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+#myButton{
+    background-color: #239df7;
+
+}
+button:hover{
+    scale: .9;
+    
+}
+#myButton2{
+    background-color: #35719a;
+}
+.copyCode{
+    cursor: pointer;
+}
