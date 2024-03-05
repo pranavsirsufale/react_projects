@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranv's Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <button id="addBtn">Add Todo</button>
+        <button id="getBtn" >Read Data</button>
+        <button id="removeBtn">Remove Todo</button>
+    </div>
+
+
+    <script>
+        const studentBioData = {
+            firstName :"Pranav",
+            lastName : "Sirsufale",
+            age:20,
+            gender :"Male",
+            grade : "a",
+            couses: ["Math", "Science","English"],
+            address : {
+                street : "123 Main St",
+                city :"cityVille",
+                state: "State",
+                ZipCode:"12345"
+            },
+        }
+
+        // Add to local storage
+        const addTodoList = () => {
+            localStorage.setItem("objectData",JSON.stringify(studentBioData))
+            console.log(JSON.stringify(studentBioData));
+        }
+        const getTodoList = () =>{
+            const retriveData = JSON.parse (
+                localStorage.getItem("objectData")
+            );
+            console.log("Retrived from Local Storage :" , retriveData);
+        }
+        const removeTodoList = () =>{
+            localStorage.removeItem('objectData')
+            console.log("Item has been deleted successfully");
+        }
+        
+        
+        document.getElementById("addBtn").addEventListener("click",() =>{
+            addTodoList();
+        })
+
+        document.getElementById("getBtn").addEventListener("click", () =>{
+            getTodoList()
+        })
+        
+        document.getElementById('removeBtn').addEventListener("click",() =>{
+            removeTodoList()
+        })
+    </script>
+</body>
+</html>

@@ -44,6 +44,7 @@ const handleButton2 = () => {
 }
 
 const copyCode = () => {
+    navigator.clipboard.writeText(copycode.innerHTML);
     copybtn.addEventListener("mousedown",()=>{
         copybtn.style.scale = 0.9
     })
@@ -57,8 +58,41 @@ const copyCode = () => {
         copycode.style.scale = 1
     })
 
-    navigator.clipboard.writeText(copycode.innerHTML);
+    const copyText = copycode.innerHTML;
     
+    // Attempt to write text to clipboard
+    navigator.clipboard.writeText(copyText)
+        .then(() => {
+            console.log('Text copied to clipboard successfully');
+            // Handle visual feedback for successful copy
+            copycode.style.transform = "scale(0.9)";
+            setTimeout(() => {
+                copycode.style.transform = "scale(1)";
+            }, 200);
+        })
+        .catch((error) => {
+            console.error('Unable to copy text: ', error);
+            // Handle errors, maybe show a message to the user
+        });
+};
+
+// Touch events for button feedback
+copybtn.addEventListener("touchstart", () => {
+    copybtn.style.transform = "scale(0.9)";
+});
+copybtn.addEventListener("touchend", () => {
+    copybtn.style.transform = "scale(1)";
+});
+copycode.addEventListener("touchstart", () => {
+    copycode.style.transform = "scale(0.9)";
+});
+copycode.addEventListener("touchend", () => {
+    copycode.style.transform = "scale(1)";
+});
+
+
+
+
 }
 
 
