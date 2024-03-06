@@ -1,63 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranv's Todo App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Todo App</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+
+        }
+        body {
+            background: linear-gradient(to right, #DA70D6, #4169E1, #1E90FF);
+        }
+        h1 {
+            text-align: center;
+            font-size: 72px;
+            background: -webkit-linear-gradient(#20B2AA, #FF6347, #4169E1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+        .maindiv {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px #007bff;
+        }
+        input[type="text"]::placeholder {
+            color: #999;
+        }
+        input[type="text"]:disabled {
+            background-color: #f2f2f2;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #349e3d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        .deleteBtn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;/
+        }
+        .deleteBtn:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+        .main_todo_div {
+            width: 300px;
+            display: grid;
+            grid-template-columns: 1fr 0.3fr;
+            align-items: center;
+            margin-left: 15vw;
+            height: auto;
+            margin-bottom: 25px;
+        }
+        li{
+            list-style: square;
+            color: beige;
+
+        }
+    </style>
 </head>
+
 <body>
-    <div id="main">
-        <button id="addBtn">Add Todo</button>
-        <button id="getBtn" >Read Data</button>
-        <button id="removeBtn">Remove Todo</button>
-    </div>
+    <h1>Todo list</h1>
+    <br>
+    <form action="">
+        <div class="maindiv">
+            <input type="text" id="inputValue">
+            <button class="btn button">Add Todo </button>
+        </div>
+        <section class="todo-lists-elems">
+
+        </section>
+    </form>
 
 
     <script>
-        const studentBioData = {
-            firstName :"Pranav",
-            lastName : "Sirsufale",
-            age:20,
-            gender :"Male",
-            grade : "a",
-            couses: ["Math", "Science","English"],
-            address : {
-                street : "123 Main St",
-                city :"cityVille",
-                state: "State",
-                ZipCode:"12345"
-            },
+        const mainTodoElem = document.querySelector(".todo-lists-elems")
+        const inputValue = document.querySelector("#inputValue")
+
+        const getTodoListsFromLocal = () => {
+            return JSON.parse(localStorage.getItem("todolist"))
         }
 
-        // Add to local storage
-        const addTodoList = () => {
-            localStorage.setItem("objectData",JSON.stringify(studentBioData))
-            console.log(JSON.stringify(studentBioData));
+        const addTodoListLocalStorage = (localTodoLists) => {
+            return localStorage.setItem("todolist", JSON.stringify(localTodoLists))
         }
-        const getTodoList = () =>{
-            const retriveData = JSON.parse (
-                localStorage.getItem("objectData")
-            );
-            console.log("Retrived from Local Storage :" , retriveData);
+
+
+        let localTodoLists = getTodoListsFromLocal() || [];
+
+
+        // adding add to list dynamically
+        const addTodoDynamicElement = (curElem) => {
+            let divElement = document.createElement("div")
+            divElement.classList.add('main_todo_div')
+            divElement.innerHTML = `<li>${curElem}</li><button class="deleteBtn">Delete</button>`
+            mainTodoElem.append(divElement)
         }
-        const removeTodoList = () =>{
-            localStorage.removeItem('objectData')
-            console.log("Item has been deleted successfully");
+
+
+
+        const addTodoList = (e) => {
+            e.preventDefault();
+            const todoListValue = inputValue.value.trim();
+            inputValue.value = "";
+
+            if (!localTodoLists.includes(todoListValue)) {
+                localTodoLists.push(todoListValue)
+                localTodoLists = [...new Set(localTodoLists)]
+                console.log(localTodoLists);
+                localStorage.setItem("todolist", JSON.stringify(localTodoLists))
+                addTodoDynamicElement(todoListValue);
+            }
         }
-        
-        
-        document.getElementById("addBtn").addEventListener("click",() =>{
-            addTodoList();
+
+        const showTodoList = () => {
+            console.log(localTodoLists)
+            localTodoLists.forEach((curElem) => {
+                addTodoDynamicElement(curElem);
+            })
+        }
+        showTodoList()
+
+        const removeTodoElement = (e) => {
+            const todoToRemove = e.target;
+            let todoListContent = todoToRemove.previousElementSibling.textContent;
+            let parentElem = todoToRemove.parentElement;
+
+            localTodoLists = localTodoLists.filter((curTodo) => {
+                return curTodo != todoListContent
+            })
+
+            addTodoListLocalStorage(localTodoLists);
+            parentElem.remove();
+        }
+
+        mainTodoElem.addEventListener("click", (e) => {
+            e.preventDefault()
+            if (e.target.classList.contains("deleteBtn")) {
+                removeTodoElement(e)
+            }
+        })
+        document.querySelector(".btn").addEventListener('click', (e) => {
+
+            addTodoList(e);
         })
 
-        document.getElementById("getBtn").addEventListener("click", () =>{
-            getTodoList()
-        })
-        
-        document.getElementById('removeBtn').addEventListener("click",() =>{
-            removeTodoList()
-        })
+
     </script>
 </body>
+
 </html>
